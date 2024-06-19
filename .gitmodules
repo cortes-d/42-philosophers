@@ -1,0 +1,3 @@
+[submodule "src/libft"]
+	path = src/libft
+	url = git@github.com:cortes-d/42-libft.git

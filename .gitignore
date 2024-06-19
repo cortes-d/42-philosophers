@@ -1,0 +1,12 @@
+# Junk files
+**/.DS_Store
+
+# Build artifacts
+**/*.o
+philo
+
+# Doc
+doc/
+
+# User specific
+.vscode/
