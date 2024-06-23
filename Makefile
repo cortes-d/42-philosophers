@@ -21,7 +21,9 @@ SRC = 	philo.c \
 		time.c \
 		death.c \
 		fork.c \
-		action.c
+		action.c \
+		flag.c \
+		stop.c
 
 SRC := $(addprefix $(DIR_SRC)/, $(SRC))
 

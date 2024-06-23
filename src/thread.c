@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:03:35 by dcortes           #+#    #+#             */
-/*   Updated: 2024/06/19 16:55:01 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/19 18:08:33 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,5 @@ void	thread_destroy(t_data *data)
 	}
 	pthread_mutex_destroy(&data->lock_print);
 	pthread_mutex_destroy(&data->lock_stop);
+	pthread_mutex_destroy(&data->lock_stop_print);
 }

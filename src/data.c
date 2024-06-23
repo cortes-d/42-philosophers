@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:36:31 by dcortes           #+#    #+#             */
-/*   Updated: 2024/06/19 16:26:38 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/19 17:26:20 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_data(int argc, char **argv, t_data *data)
 	data->n = ft_atoi(argv[1]);
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->n);
 	data->stop = 0;
+	data->stop_printed = 0;
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
@@ -30,6 +31,7 @@ void	init_data(int argc, char **argv, t_data *data)
 		data->meal_count = ft_atoi(argv[5]);
 	pthread_mutex_init(&data->lock_print, NULL);
 	pthread_mutex_init(&data->lock_stop, NULL);
+	pthread_mutex_init(&data->lock_stop_print, NULL);
 }
 
 /*

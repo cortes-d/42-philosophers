@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:30:20 by damiancorte       #+#    #+#             */
-/*   Updated: 2024/06/19 16:21:18 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/23 23:22:38 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_abs	is_dead(t_philosopher *philosopher)
 		time_of_death = philosopher->timestamp_last_meal
 			+ philosopher->data->time_to_die;
 		philosopher->timestamp_death = time_of_death;
+		set_stop_flag(philosopher);
 		return (time_of_death);
 	}
 	else
@@ -52,35 +53,10 @@ void	*check(void *args)
 		time_of_death = is_dead(philosopher);
 		if (time_of_death != ALIVE)
 		{
-			set_stop_flag(philosopher);
 			print_death(philosopher);
 			break ;
 		}
+		msleep(1);
 	}
 	return (NULL);
-}
-
-/*
- * Sets the stop flag to stop the program
- */
-void	set_stop_flag(t_philosopher *philosopher)
-{
-	pthread_mutex_lock(&philosopher->data->lock_stop);
-	philosopher->data->stop = 1;
-	pthread_mutex_unlock(&philosopher->data->lock_stop);
-}
-
-/*
- * Tells if the program must stop (as soon as any philosopher died)
- */
-int	must_stop(t_philosopher *philosopher)
-{
-	int	stop;
-
-	stop = 0;
-	pthread_mutex_lock(&philosopher->data->lock_stop);
-	if (philosopher->data->stop)
-		stop = 1;
-	pthread_mutex_unlock(&philosopher->data->lock_stop);
-	return (stop);
 }

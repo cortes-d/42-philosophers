@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:36:44 by damiancorte       #+#    #+#             */
-/*   Updated: 2024/06/19 16:21:13 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/19 18:08:42 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ typedef struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	lock_print;
 	pthread_mutex_t	lock_stop;
+	pthread_mutex_t	lock_stop_print;
 	t_abs			timestamp_start;
 	t_rel			time_to_die;
 	t_rel			time_to_eat;
 	t_rel			time_to_sleep;
 	int				meal_count;
 	int				stop;
+	int				stop_printed;
 }	t_data;
 
 typedef struct s_philosopher
@@ -109,7 +111,12 @@ void		fork_unlock(pthread_mutex_t *fork, int fork_left, int fork_right);
  */
 t_abs		is_dead(t_philosopher *philosopher);
 void		*check(void *args);
+int			get_flag(pthread_mutex_t *lock, int *flag);
+void		set_flag(pthread_mutex_t *lock, int *flag, int value);
+
 void		set_stop_flag(t_philosopher *philosopher);
 int			must_stop(t_philosopher *philosopher);
+int			stop_printed(t_philosopher *philosopher);
+void		set_stop_printed(t_philosopher *philosopher);
 
 #endif

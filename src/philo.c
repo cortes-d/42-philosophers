@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:37:48 by damiancorte       #+#    #+#             */
-/*   Updated: 2024/06/19 16:51:01 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/19 17:25:29 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	main(int argc, char **argv)
 		thread_create(&data);
 		thread_wait(&data);
 		thread_destroy(&data);
-		pthread_mutex_destroy(&data.lock_print);
-		pthread_mutex_destroy(&data.lock_stop);
 		free(data.fork);
 		free(data.philosopher);
 		free(data.checker);

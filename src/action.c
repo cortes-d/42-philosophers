@@ -6,7 +6,7 @@
 /*   By: dcortes <dcortes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:35:01 by damiancorte       #+#    #+#             */
-/*   Updated: 2024/06/19 16:14:56 by dcortes          ###   ########.fr       */
+/*   Updated: 2024/06/23 23:23:09 by dcortes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
  */
 void	print_action(t_philosopher *philosopher, t_action action)
 {
-	int			id;
-	char		*message;
+	int		id;
+	char	*message;
 
+	if (must_stop(philosopher))
+		return ;
 	id = philosopher->id + 1;
 	if (philosopher->last_action == action)
 		return ;
@@ -33,9 +35,13 @@ void	print_action(t_philosopher *philosopher, t_action action)
 	if (action == FORKS)
 		message = "🍴\thas taken forks";
 	pthread_mutex_lock(&philosopher->data->lock_print);
-	printf("%li\t\tPhilosopher %i\t%s\n", now_rel(philosopher->data), id, message);
+	if (!philosopher->data->stop_printed)
+	{
+		printf("%li\t\tPhilosopher %i\t%s\n",
+			now_rel(philosopher->data), id, message);
+		philosopher->last_action = action;
+	}
 	pthread_mutex_unlock(&philosopher->data->lock_print);
-	philosopher->last_action = action;
 }
 
 /*
@@ -46,12 +52,19 @@ void	print_death(t_philosopher *philosopher)
 	char	*message;
 	int		id;
 
+	pthread_mutex_lock(&philosopher->data->lock_print);
+	if (philosopher->data->stop_printed)
+	{
+		pthread_mutex_unlock(&philosopher->data->lock_print);
+		return ;
+	}
 	id = philosopher->id + 1;
 	message = "💀\tis dead";
-	pthread_mutex_lock(&philosopher->data->lock_print);
-	printf("%li\t\tPhilosopher %i\t%s (%li ms ago)\n",
-		now_rel(philosopher->data), id, message, since_death(philosopher));
+	printf("%li\t\tPhilosopher %i\t%s\n",
+		now_rel(philosopher->data), id, message);
+	philosopher->data->stop_printed = 1;
 	pthread_mutex_unlock(&philosopher->data->lock_print);
+	set_stop_printed(philosopher);
 }
 
 /*
